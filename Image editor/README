@@ -1,0 +1,51 @@
+###  Pirlea Andrei 312CAa 2022-2023
+
+# Tema 3 - Editor de imagini
+- fisiere: image_editor.c, functions.h, functions.c
+
+## Descriere
+
+Programul citeste comenzi pana ajungem la comanda EXIT si apeleaza functia
+necesara fiecarei operatii. 
+
+Functia pentru *LOAD* citeste parametrii necesari, ignorand liniile comentate si
+apeleaza functia necesara pentru incarcarea respectivului tip de imagine.
+Functiile adiacente citesc poza in memorie.
+
+Functia pentru *SAVE* parcurge structura *image_t* si scrie in fisier
+informatiile necesare pentru poza.
+
+Functia pentru *SELECT* verifica daca este prezent parametrul "ALL" sau daca
+avem 4 coordonate si pune in structura coordonatele. 
+
+Functia pentru *CROP* creeaza un struct similar cu cel initial cu inaltimea si
+latimea conform selectiei si copiaza pixelii necesari. In final dealoca memoria
+imaginii initiale si pointeaza spre noua structura creata.
+
+Functia pentru *EQUALIZE* foloseste un vector de frecventa sa numere numarul de
+valori si cu ajutorul formulei calculeaza noua valoare a pixelilor. Este
+folosita si functia clamp pentru a ne asigura ca nu avem valori care nu pot
+reprezenta o valoare acceptata a pixelilor de catre formatul Netpbm.
+
+Functia pentru *HISTOGRAM* foloseste un vector de frecventa pentru a calcula cat
+de multe valori se afla in fiecare interval si afiseaza numarul de stelute
+necesare.
+
+Functia pentru *APPLY* aloca o noua structura si o populeaza cu noile valori
+folosind o functie adiacenta ce aplica filtrele necesare si returneaza valori.
+Eliberez memoria de la vechea imagine si o fac sa pointeze catre noua imagine
+creata.
+
+Functia pentru *ROTATE* modifica unghiul sa apartina intervalului [0, 360] si
+apeleaza o functie adiacenta precizand si parametrul *full_matrix* ce este menit
+sa stabileasca daca rotim intreaga imagine sau nu. In cazul in caare se roteste
+doar o selectie patrata alocam o noua structura in care copiem valorile imaginii
+vechi si parcurgem selectia de la stanga la dreapta si de jos in sus si pune
+valori in noua structura. In cazul in care este selectata intreaga imagine
+alocam memorie pentru o structura cu inaltimea egala cu latimea imaginii
+initiale si latimea egala cu inaltimea imaginii initiale dupa care parcurgem
+similar precum in cazul anterior. In final dealoca memoria imaginii initiale si
+pointeaza spre noua structura creata.
+
+Functia *EXIT* incheie programul si apeleaza functia *clear_image* in cazul in
+care imaginea este alocata.

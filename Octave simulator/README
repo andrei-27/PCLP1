@@ -1,0 +1,96 @@
+###  Pirlea Andrei 312CAa 2022-2023
+
+# Tema 2 - Simulator de Octave
+- fisiere: my_octave.c, functions.h
+
+## Descriere
+
+Programul citeste de la tastatura o litera, reprezentand operatia, iar apoi,
+folosind un switch case, apeleaza functia respectiva sau afiseaza mesajul
+*Unrecognized comand* daca litera nu reprezinta nicio operatie.
+
+Pentru a face codul mai lizibil, mai bine organizat si pentru ca era un task
+repetitiv, am hotarat sa folosesc o functie separata pentru a gestiona cazul in
+care memoria nu poate fi alocata.
+
+Toate functiile pentru toate operatiile au conditiile de exceptie pentru indici
+sau pentru alte aspecte.
+
+Deoarece, modularizarea este foarte importanta am folosit o functie de
+*initialization* pentru a aloca initial vectorul de matrice si cei 2 vectori
+pentru dimensiuni. Totodata, aceasta functie citeste atat dimensiunile cat si
+elemetele matricei si le pune pe prima pozitie.
+
+Pentru urmatoarele operatii *L* am folosit functia load_matrix, care realoca
+vectorul de matrice si vectorii pentru dimensiuni pentru a putea avea loc sa
+stocam noile date.
+
+Operatia *P* este realizata de functia print_matrix. Aceasta parcurge matricea
+de la indexul dat si afiseasa la STDOUT matricea.
+
+Afisarea dimensiunilor unei matrice este facuta de functia *D*, iar acest lucru
+sa va indeplini, folosind vectorii pentru dimensiuni.
+
+Operatia *C* citeste toate datele oferite la STDIN, chiar daca indexul citit nu
+exista pentru a evita erorile generate de lipsa acestei observatii. Dupa ce
+citim numarul de linii si cel de coloane, alocam dinamic cate un vector pentru
+fiecare dimensiune pentru a citi indicii. Apoi, alocam o matrice temporara
+dinamic pentru a acomoda matricea noua rezultata, ii atribuim valori din
+matricea de la indexul dat folosindu-ne de elementele din vectorii noi creati.
+Parcurgem si eliberam memoria de la indexul matricei si facem ca pointerul care
+pointa spre aceasta sa pointeze catre matricea temporara creata anterior. In
+final, punem valorile noi in vectorii de dimensiuni si eliberam vectorii
+folositi pentru a stoca indicii.
+
+Transpusa (operatia *T*) o vom realiza intr-un mod similar cu cel de la operatia
+anterioara. Vom aloca o noua matrice cu dimensiunile necesare, o vom popula, vom
+elibera vechea matrice si vom face ca pointerul de la indexul dat sa pointeze
+spre noua matrice. In final, schimbam numarul de linii cu cel de coloane din
+vectorii pentru dimensiuni.
+
+Pentru eliberarea unei matrice (operatia *F*) vom parcurge si elibera matricea
+de la indexul dat, iar apoi vom shifta toate matricele ramase si toate
+elementele din vectorii de dimensiuni o pozitie la stanga. In cazul in care nu
+mai avem matrice, vom elibera tot spatiul ocupat, urmand ca mai apoi urmatoarea
+operatie *L* sa intre pe functia *initialize*.
+
+Operatia de curatare a intregii memorii ocupate (operatia *Q*) parcurge tot
+vectorul de matrice si elibereaza spatiul ocupat, iar in final elibereaza si
+vectorii de dimensiuni.
+
+Sortarea matricelor in functie de suma elementelor se va realiza parcurgand
+toate matricele si calculand suma elementelor si efectuand modulo 10007 la
+fiecare adunare pentru a evita overflowul. Sumele aceastea sunt stocate intr-un
+vector de sume alocat dinamic, iar in momentul in care acesta este populat se
+verifica daca valoarea este negativa si se adauga 10007 in acest caz. Sortarea
+se va face in functie de sume, iar odata cu interschimbarea valorilor sumelor
+din vector vom interschimba atat dimensiunile matricelor cat si matricele. In
+final, eliberam vectorul de sume.
+
+Inmultirea se va realiza alocand o noua matrice pentru rezultat. Vom calcula
+produsul in aceasta matrice, parcurgand cele 2 matrice, iar la fiecare element
+vom face mod 10007 pentru a evita overflowul. Vom mari dimensiunile vectorului
+de matrice si celor 2 vectori de dimensiuni pentru a putea acomoda noua matrice.
+Vom parcurge noua zona alocata in vectorul de matrice si o vom popula cu
+elementele din matricea rezultat. In final eliberam memoria alocata si vom stoca
+dimensiunile pentru noua matrice in vectorii de dimensiuni.
+
+Operatia *R* o vom realiza in timp logaritmic, asa cum este precizat in enunt.
+Pentru aceasta, avem nevoie de 2 matrice alocate dinamic, de dimensiunile
+matricei initiale. Vom calcula produsul dintre matricea initiala si cea rezultat
+in cazul in care puterea este impara. In cazul in care puterea este para vom
+face produsul dintre matricea rezultat si ea insasi si vom imparti puterea la 2.
+La fiecare inmultire facem operatia modulo, iar in final verificam daca numarul
+este negativ si adaugam 10007 in acest caz. Vom elibera memoria alocata in
+finalul functiei.
+
+Inmultirea folosind algoritmul lui Strassen o realizez alocand 3 matrice, 2
+pentru inmultire si una pentru rezultat, iar apoi apelez functia recursiva
+*strassen* care se ocupa de calculul matricei rezultat. Aceasta functie apeleaza
+o alta functie pentru alocarea memoriei matricelor necesare. Am construit alte 3
+functii, una pentru adunarea a 2 matrice, alta pentru scaderea acestora si una
+pentru dealocare. Aceste functii simplifica corpul functiei recursive si ajuta
+la lizibilitatea acesteia. Conditia pentru oprirea recursivitatii este ca
+dimensiunea matricelor sa fie egala cu 1, altfel spus cand am ajuns la numere.
+Continuam prin plasarea matricei rezultat pe ultima pozitie in vectorul de
+matrice si eliberam memoria alocata.
